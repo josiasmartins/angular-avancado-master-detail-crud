@@ -10,14 +10,14 @@ import { Entry } from './entry.model';
 })
 export class EntryService {
 
-  private apiPath: string = 'api/categories';
+  private apiPath: string = 'api/entries';
 
   constructor(private http: HttpClient) {}
 
   getAll(): Observable<Entry[]> {
     return this.http.get(this.apiPath).pipe(
       catchError(this.handleError),
-      map(this.jsonDatToCategories)
+      map(this.jsonDatToEntries)
     )
   }
 
@@ -57,14 +57,19 @@ export class EntryService {
 
   // private methods
 
-  private jsonDatToCategories(jsonData: any[]): Entry[] {
-    const categories: Entry[] = [];
-    jsonData.forEach(element => categories.push(element as Entry));
-    return categories;
+  private jsonDatToEntries(jsonData: any[]): Entry[] {
+    const entries: Entry[] = [];
+
+    jsonData.forEach(element => {
+      const entry = Object.assign(new Entry(), element);
+      entries.push(entry);
+    });
+
+    return entries;
   }
 
   private jsonDataToEntry(jsonData: any): Entry {
-    return jsonData as Entry;
+    return Object.assign(new Entry(), jsonData);
   }
 
   private handleError(error: any) {
