@@ -7,7 +7,7 @@ import toastr from 'toastr';
 import { BaseResourceModel } from '../../models/base-resource.model';
 import { BaseResourceService } from '../../services/base-resource.service';
 
-export abstract class ResourceFormComponent<T extends BaseResourceModel> implements OnInit, AfterContentChecked {
+export abstract class BaseResourceFormComponent<T extends BaseResourceModel> implements OnInit, AfterContentChecked {
 
   currentAction: 'edit' | 'new';
   resourceForm: FormGroup;
