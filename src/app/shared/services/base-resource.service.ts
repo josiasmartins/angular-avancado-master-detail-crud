@@ -17,7 +17,7 @@ export abstract class BaseResourceService<T extends BaseResourceModel> {
   getAll(): Observable<T[]> {
     return this.http.get(this.apiPath).pipe(
       catchError(this.handleError),
-      map(this.jsonDatToResources)
+      map(this.jsonDataToResources)
     )
   }
 
@@ -57,7 +57,7 @@ export abstract class BaseResourceService<T extends BaseResourceModel> {
 
    // procted methods
 
-   protected jsonDatToResources(jsonData: any[]): T[] {
+  protected jsonDataToResources(jsonData: any[]): T[] {
     const resources: T[] = [];
     jsonData.forEach(element => resources.push(element as T));
     return resources;
