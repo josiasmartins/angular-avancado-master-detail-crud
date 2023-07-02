@@ -1,7 +1,5 @@
 import { OnInit } from '@angular/core';
 
-import { Entry } from '../shared/entry.model';
-import { EntryService } from '../shared/entry.service';
 import { BaseResourceModel } from '../../models/base-resource.model';
 import { BaseResourceService } from '../../services/base-resource.service';
 
@@ -19,8 +17,8 @@ export abstract class BaseResourceListComponent<T extends BaseResourceModel> imp
     console.log(this.resources);
   }
 
-  deleteEntry(resource: T) {
-    const mustDelete = confirm("Deseja realmente excluir este item");
+  deleteResource(resource: T) {
+    const mustDelete = this.modalConfirm();
 
     if (mustDelete) {
       this.resourceService.delete(resource.id).subscribe(
@@ -29,6 +27,10 @@ export abstract class BaseResourceListComponent<T extends BaseResourceModel> imp
       )
     }
 
+  }
+
+  protected modalConfirm(): boolean {
+    return confirm("Deseja realmente excluir este item")
   }
 
 }
