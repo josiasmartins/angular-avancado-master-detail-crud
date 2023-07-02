@@ -15,7 +15,7 @@ export abstract class BaseResourceService<T extends BaseResourceModel> {
     protected jsonDataToResourceFn: (jsonData: any) => T
   ) {
     this.http = injector.get(HttpClient);
-    console.log(this)
+    // console.log(this)
   }
 
   getAll(): Observable<T[]> {
@@ -70,7 +70,7 @@ export abstract class BaseResourceService<T extends BaseResourceModel> {
   }
 
   protected jsonDataToResource(jsonData: any): T {
-    console.log(this)
+    // console.log(this)
     return this.jsonDataToResourceFn(jsonData);
   }
 

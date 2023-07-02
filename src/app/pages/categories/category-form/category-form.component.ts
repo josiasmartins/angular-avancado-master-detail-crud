@@ -111,7 +111,7 @@ export class CategoryFormComponent implements OnInit, AfterContentChecked {
   }
 
   private actionsForSuccess(category: Category) {
-    console.log(category.id)
+    console.log(this.route.snapshot.parent, 'ibg test')
     toastr.success("Solicitação processsada com sucesso!");
 
     // redirect/reload component page
