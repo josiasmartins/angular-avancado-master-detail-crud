@@ -90,6 +90,7 @@ export class CategoryFormComponent implements OnInit, AfterContentChecked {
 
   private createCategory() {
     const category: Category = Object.assign(new Category(), this.categoryForm.value);
+    console.log(category.id, category);
 
     this.categoryService.create(category)
       .subscribe(
@@ -99,8 +100,9 @@ export class CategoryFormComponent implements OnInit, AfterContentChecked {
   }
 
   private updateCategory() {
-    console.log(this.categoryForm.value);
+    // console.log(this.categoryForm.value);
     const category: Category = Object.assign(new Category(), this.categoryForm.value);
+    console.log(category.id, 'ibg');
 
     this.categoryService.update(category).subscribe(
       category => this.actionsForSuccess(category),
@@ -109,6 +111,7 @@ export class CategoryFormComponent implements OnInit, AfterContentChecked {
   }
 
   private actionsForSuccess(category: Category) {
+    console.log(category.id)
     toastr.success("Solicitação processsada com sucesso!");
 
     // redirect/reload component page

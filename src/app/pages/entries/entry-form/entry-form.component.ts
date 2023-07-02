@@ -149,8 +149,9 @@ export class EntryFormComponent implements OnInit, AfterContentChecked {
   }
 
   private updateEntry() {
-    console.log(this.entryForm.value);
+    // console.log(this.entryForm.value);
     const entry: Entry = Entry.fromJson(this.entryForm.value);
+    console.log(entry.id, 'ibg antes');
 
     this.entryService.update(entry).subscribe(
       entry => this.actionsForSuccess(entry),
@@ -160,6 +161,7 @@ export class EntryFormComponent implements OnInit, AfterContentChecked {
 
   private actionsForSuccess(entry: Entry) {
     toastr.success("Solicitação processsada com sucesso!");
+    console.log(entry.id, 'ibg')
 
     // redirect/reload component page
     this.router.navigateByUrl("entries", { skipLocationChange: true }).then(
