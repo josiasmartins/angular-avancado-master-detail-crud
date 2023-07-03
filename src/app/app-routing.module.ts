@@ -9,7 +9,8 @@ const routes: Routes = [
   {
     path: 'entries',
     loadChildren: './pages/entries/entries.module#EntriesModule'
-  }
+  },
+  { path: 'reports', loadChildren: './pages/reports/reports.module#ReportsModule' }
 ];
 
 @NgModule({
