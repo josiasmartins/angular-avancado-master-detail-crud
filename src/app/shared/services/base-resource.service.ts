@@ -74,7 +74,7 @@ export abstract class BaseResourceService<T extends BaseResourceModel> {
     return this.jsonDataToResourceFn(jsonData);
   }
 
-  protected handleError(error: any) {
+  protected handleError(error: any): Observable<any> {
     console.log("ERRO NA REQUISIÇÃO =>, ", error);
     return throwError(error);
   }
