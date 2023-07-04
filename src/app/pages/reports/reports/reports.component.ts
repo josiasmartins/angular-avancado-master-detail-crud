@@ -1,9 +1,10 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import currencyFormatter from 'currency-formatter';
+
 import { Category } from '../../categories/shared/category.model';
-import currentFormatter from 'currency-formatter';
+import { CategoryService } from '../../categories/shared/category.service';
 import { Entry } from '../../entries/shared/entry.model';
 import { EntryService } from '../../entries/shared/entry.service';
-import { CategoryService } from '../../categories/shared/category.service';
 
 @Component({
   selector: 'app-reports',
@@ -16,8 +17,8 @@ export class ReportsComponent implements OnInit {
   revenueTotal: any = 0;
   balance: any = 0;
 
-  expenseCharData: any;
-  revenueCharData: any;
+  expenseChartData: any;
+  revenueChartData: any;
 
   charOptions = {
     scales: {
@@ -67,48 +68,53 @@ export class ReportsComponent implements OnInit {
 
     this.entries.forEach(entry => {
       if (entry.type === 'revenue')
-        revenueTotal += currentFormatter.unformat(entry.amount, { code: 'BRL' })
+        revenueTotal += currencyFormatter.unformat(entry.amount, { code: 'BRL' })
       else
-        expenseTotal += currentFormatter.unformat(entry.amount, { code: 'BRL' })
+        expenseTotal += currencyFormatter.unformat(entry.amount, { code: 'BRL' })
     });
 
-    this.expenseTotal = currentFormatter.format(expenseTotal, { code: 'BRL' });
-    this.revenueTotal = currentFormatter.format(revenueTotal, { code: 'BRL' });
-    this.balance = currentFormatter.format(revenueTotal - expenseTotal, { code: 'BRL' });
+    this.expenseTotal = currencyFormatter.format(expenseTotal, { code: 'BRL' });
+    this.revenueTotal = currencyFormatter.format(revenueTotal, { code: 'BRL' });
+    this.balance = currencyFormatter.format(revenueTotal - expenseTotal, { code: 'BRL' });
   }
 
   private setChartData() {
-    this.revenueCharData = this.getChartData('revenue', 'Gráfico de Receitas', '#9ccc65');
-    this.expenseCharData = this.getChartData('revenue', 'Gráfico de Despesas', '#e03131');
+    this.revenueChartData = this.getChartData('revenue', 'Gráfico de Receitas', '#9ccc65');
+    this.expenseChartData = this.getChartData('expense', 'Gráfico de Despesas', '#e03131');
   }
 
   private getChartData(entryType: string, title: string, color: string) {
-    const charData = [];
+    const chartData = [];
     this.categories.forEach(category => {
       // filtering entries by category and type
       const filteredEntries = this.entries.filter(
         entry => (entry.categoryId == category.id) && (entry.type == entryType)
       );
 
+      console.log(filteredEntries, 'filtro entries')
+
       // if found entries, then sum entries amount and add to charData
       if (filteredEntries.length > 0) {
         const totalAmount = filteredEntries.reduce(
-          (total, entry) => total + currentFormatter.unformat(entry.amount, { code: 'BRL' }), 0
+          (total, entry) => total + currencyFormatter.unformat(entry.amount, { code: 'BRL' }), 0
         )
 
-        charData.push({
+        chartData.push({
           categoryName: category.name,
           totalAmount: totalAmount
         })
       }
     })
 
+    console.log(chartData, 'chartData')
+
+
     return {
-      labels: charData.map(item => item.categoryName),
+      labels: chartData.map(item => item.categoryName),
       datasets: [{
         label: title,
         backgroundColor: color,
-        data: charData.map(item => item.totalAmount)
+        data: chartData.map(item => item.totalAmount)
       }]
     }
   }
